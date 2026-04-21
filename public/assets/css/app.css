@@ -11,7 +11,7 @@
     --accent: #003087;
     --accent-dark: #00286f;
     --accent-soft: #dce8ff;
-    --gold: #1f66e5;
+    --highlight: #1f66e5;
     --green: #2c7a53;
     --shadow: 0 18px 45px rgba(19, 45, 89, 0.09);
     --shadow-soft: 0 10px 24px rgba(19, 45, 89, 0.06);
@@ -865,7 +865,7 @@ body,
 
 .promo-ribbon {
     color: #fff8f4;
-    background: linear-gradient(135deg, var(--gold), #4e8ef4);
+    background: linear-gradient(135deg, var(--highlight), #4e8ef4);
 }
 
 .list-checkbox {
@@ -964,7 +964,7 @@ body,
     border-radius: 24px;
     border: 1px solid rgba(0, 48, 135, 0.12);
     background:
-        linear-gradient(135deg, rgba(255, 244, 234, 0.96), rgba(255, 255, 255, 0.92));
+        linear-gradient(135deg, rgba(239, 245, 255, 0.96), rgba(255, 255, 255, 0.92));
 }
 
 .account-title {
@@ -1064,7 +1064,7 @@ body,
     border-radius: 22px;
     border: 1px solid rgba(0, 48, 135, 0.1);
     background:
-        linear-gradient(180deg, rgba(255, 250, 244, 0.95), rgba(255, 255, 255, 0.98));
+        linear-gradient(180deg, rgba(245, 249, 255, 0.95), rgba(255, 255, 255, 0.98));
     box-shadow: var(--shadow-soft);
 }
 
