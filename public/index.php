@@ -61,8 +61,8 @@ $departments = [
 
         <div class="sidebar-account-action">
             <button class="btn-primary sidebar-signin-btn" data-external-url="https://www.frysfood.com/auth/signin">
-                <i data-feather="user"></i>
-                <span>Sign In To Fry's</span>
+                <i data-feather="shopping-cart"></i>
+                <span>Login to Fry's</span>
             </button>
         </div>
 

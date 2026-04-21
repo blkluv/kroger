@@ -1,0 +1,184 @@
+{
+  "data": {
+    "productId": "0001111041700",
+    "productPageURI": "/p/kroger-2-reduced-fat-milk/0001111041700?cid=dis.api.tpi_products-api_20240521_b:all_c:p_t:",
+    "aliasProductIds": [
+      "0001111060903"
+    ],
+    "aisleLocations": [
+      {
+        "bayNumber": "13",
+        "description": "Aisle 35",
+        "number": "35",
+        "numberOfFacings": "5",
+        "sequenceNumber": "3",
+        "side": "L",
+        "shelfNumber": "2",
+        "shelfPositionInBay": "1"
+      }
+    ],
+    "brand": "Kroger",
+    "categories": [
+      "Dairy"
+    ],
+    "countryOrigin": "United States",
+    "description": "Kroger 2% Reduced Fat Milk",
+    "alcohol": false,
+    "alcoholProof": 0,
+    "ageRestriction": false,
+    "snapEligible": true,
+    "manufacturerDeclarations": [
+      "Live Naturally",
+      "Kosher",
+      "Tree Nuts Free"
+    ],
+    "sweeteningMethods": {
+      "code": "UNSPECIFIED",
+      "name": "Unspecified"
+    },
+    "allergens": [
+      {
+        "levelOfContainmentName": "Free from",
+        "name": "Tree Nuts and Their Derivatives"
+      }
+    ],
+    "allergensDescription": "Free from Cereals and Their Derivatives.",
+    "certifiedForPassover": false,
+    "hypoallergenic": false,
+    "nonGmo": false,
+    "nonGmoClaimName": "PRODUCT LABELED WITH NON-GMO CLAIM",
+    "organicClaimName": "ORGANIC CLAIM AND PRINTED ON PACKAGE",
+    "receiptDescription": "KROGER 2% RF MILK",
+    "warnings": "KEEP REFRIGERATED",
+    "retstrictions": {
+      "maximumOrderQuantity": 10,
+      "minimumOrderQuantity": 1,
+      "postalCode": [
+        "12345",
+        "67890"
+      ],
+      "shippable": false,
+      "stateCodes": [
+        "CA",
+        "NY"
+      ]
+    },
+    "items": [
+      {
+        "itemId": "0001111041700",
+        "inventory": {
+          "stockLevel": "HIGH"
+        },
+        "favorite": true,
+        "fulfillment": {
+          "curbside": true,
+          "delivery": true,
+          "instore": true,
+          "shiptohome": true
+        },
+        "price": {
+          "regular": 1.99,
+          "promo": 1.59,
+          "regularPerUnitEstimate": 1.99,
+          "promoPerUnitEstimate": 1.59,
+          "expirationDate": {
+            "value": "9999-12-31T00:00:00Z",
+            "timezone": "UTC"
+          },
+          "effectiveDate": {
+            "value": "9999-12-31T00:00:00Z",
+            "timezone": "UTC"
+          }
+        },
+        "nationalPrice": {
+          "regular": 1.99,
+          "promo": 1.59,
+          "regularPerUnitEstimate": 1.99,
+          "promoPerUnitEstimate": 1.59,
+          "expirationDate": {
+            "value": "9999-12-31T00:00:00Z",
+            "timezone": "UTC"
+          },
+          "effectiveDate": {
+            "value": "9999-12-31T00:00:00Z",
+            "timezone": "UTC"
+          }
+        },
+        "size": "1 gal",
+        "soldBy": "unit"
+      }
+    ],
+    "itemInformation": {
+      "depth": "6",
+      "height": "10",
+      "width": "6",
+      "grossWeight": "8.82 [lb_av]",
+      "netWeight": "8.62 [lb_av]",
+      "averageWeightPerUnit": "8.62 [lb_av]"
+    },
+    "temperature": {
+      "indicator": "Refrigerated",
+      "heatSensitive": true
+    },
+    "images": [
+      {
+        "id": "string",
+        "perspective": "front",
+        "default": true,
+        "sizes": [
+          {
+            "id": "7df2d0a3-8349-44d4-9512-1dab89e675a9",
+            "size": "medium",
+            "url": "https://www.kroger.com/product/images/medium/front/0001111041700"
+          }
+        ]
+      }
+    ],
+    "upc": "0001111041700",
+    "ratingsAndReviews": {
+      "averageOverallRating": 4.5,
+      "totalReviewCount": 12
+    },
+    "nutritionInformation": {
+      "ingredientStatement": "\"Milk, skim milk, vitamin A palmitate, and vitamin D3.CONTAINS: MILK.",
+      "dailyValueIntakeReference": "Percent Daily Values are based on a 2,000 calorie diet.",
+      "servingSize": {
+        "description": "8 fl oz (240mL)",
+        "quantity": 240,
+        "unitOfMeasure": {
+          "abbreviation": "ml",
+          "code": "MLT",
+          "name": "Millilitre"
+        }
+      },
+      "nutrients": [
+        {
+          "code": "CA",
+          "description": "calcium",
+          "displayName": "Calcium",
+          "percentDailyIntake": 25,
+          "quantity": 290,
+          "precision": {
+            "code": "APPROXIMATELY",
+            "name": "Approximately"
+          },
+          "unitOfMeasure": {
+            "abbreviation": "mg",
+            "code": "MGM",
+            "name": "Milligram"
+          }
+        }
+      ],
+      "preparationState": {
+        "code": "UNPREPARED",
+        "name": "Unprepared"
+      },
+      "servingsPerPackage": {
+        "description": "8.0 Exact",
+        "value": 8
+      },
+      "nutritionalRating": "73"
+    }
+  },
+  "meta": {}
+}

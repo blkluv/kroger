@@ -1,0 +1,120 @@
+{
+  "data": [
+    {
+      "address": {
+        "addressLine1": "2900 W. St. Rt. 22 & 3",
+        "addressLine2": "",
+        "city": "Maineville",
+        "county": "WARREN COUNTY",
+        "state": "OH",
+        "zipCode": "45039"
+      },
+      "chain": "KROGER",
+      "phone": "5551234567",
+      "departments": [
+        {
+          "departmentId": "01",
+          "name": "Drug & General Merchandise",
+          "phone": "5551234567",
+          "hours": {
+            "Open24": false,
+            "monday": {
+              "open": "05:00",
+              "close": "1380",
+              "open24": false
+            },
+            "tuesday": {
+              "open": "05:00",
+              "close": "1380",
+              "open24": false
+            },
+            "wednesday": {
+              "open": "05:00",
+              "close": "1380",
+              "open24": false
+            },
+            "thursday": {
+              "open": "05:00",
+              "close": "1380",
+              "open24": false
+            },
+            "friday": {
+              "open": "05:00",
+              "close": "1380",
+              "open24": false
+            },
+            "saturday": {
+              "open": "05:00",
+              "close": "1380",
+              "open24": false
+            },
+            "sunday": {
+              "open": "05:00",
+              "close": "1380",
+              "open24": false
+            }
+          }
+        }
+      ],
+      "geolocation": {
+        "latLng": "39.3110881,-84.2751167",
+        "latitude": 39.3110881,
+        "longitude": -84.2751167
+      },
+      "hours": {
+        "Open24": true,
+        "gmtOffset": "(UTC-05:00) Eastern Time (US Canada)",
+        "timezone": "America/New_York",
+        "friday": {
+          "open": "05:00",
+          "close": "1380",
+          "open24": false
+        },
+        "monday": {
+          "open": "05:00",
+          "close": "1380",
+          "open24": false
+        },
+        "saturday": {
+          "open": "05:00",
+          "close": "1380",
+          "open24": false
+        },
+        "sunday": {
+          "open": "05:00",
+          "close": "1380",
+          "open24": false
+        },
+        "thursday": {
+          "open": "05:00",
+          "close": "1380",
+          "open24": false
+        },
+        "tuesday": {
+          "open": "05:00",
+          "close": "1380",
+          "open24": false
+        },
+        "wednesday": {
+          "open": "05:00",
+          "close": "1380",
+          "open24": false
+        }
+      },
+      "locationId": "01400376",
+      "storeNumber": "00376",
+      "divisionNumber": "014",
+      "name": "Kroger Landen"
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "total": 0,
+      "start": 0,
+      "limit": 0
+    },
+    "warnings": [
+      "string"
+    ]
+  }
+}

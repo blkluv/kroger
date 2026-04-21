@@ -81,30 +81,38 @@ body,
     display: flex;
     flex-direction: column;
     gap: 22px;
-    background:
-        linear-gradient(180deg, rgba(227, 24, 55, 0.98) 0%, rgba(176, 16, 42, 0.98) 100%);
+    background: rgba(176, 16, 42, 0.98);
     color: #fff8f4;
 }
 
 .sidebar-logo {
-    display: flex;
+    display: inherit;
     align-items: center;
-    gap: 10px;
-    font-family: "Fraunces", serif;
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.03em;
+    justify-content: center;
+    background: rgba(176, 16, 42, 0.98);
     color: #fff8f4;
+    width: 100%;
+    height: 60px;
+    border-radius: 18px;
 }
 
 .logo-icon {
-    width: 18px;
-    height: 18px;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff8f4;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08);
+    flex: 0 0 auto;
+    margin-right: 12px;
 }
 
 .brand-logo {
     display: block;
-    width: 110px;
+    width: 175px;
     height: auto;
     filter: brightness(0) invert(1);
     flex: 0 0 auto;
@@ -117,7 +125,7 @@ body,
 
 .hero-logo {
     display: inline-block;
-    width: 112px;
+    width: 175px;
     height: auto;
     flex: 0 0 auto;
 }
@@ -135,10 +143,19 @@ body,
 }
 
 .sidebar-signin-btn {
-    width: 100%;
+    width: 80%;
+    height: 42px;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 10px;
+    background-color: rgba(255, 248, 244, 0.18);
+    color: #fff8f4;
     border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 18px;
+    cursor: pointer;
+    transition: background-color 0.18s ease;
 }
 
 .sidebar-links {

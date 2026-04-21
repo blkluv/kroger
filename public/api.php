@@ -49,15 +49,23 @@ try {
             $locations = $service->searchLocations($zipCode);
             foreach ($locations as $location) {
                 $dataRepo->upsertStore([
-                    'kroger_location_id' => $location['location_id'],
+                    'kroger_location_id' => $location['kroger_location_id'],
                     'name' => $location['name'],
                     'chain' => $location['chain'],
                     'address_line_1' => $location['address_line_1'],
-                    'address_line_2' => null,
+                    'address_line_2' => $location['address_line_2'] ?? null,
                     'city' => $location['city'],
-                    'state_code' => $location['state'],
-                    'postal_code' => $location['zip_code'],
-                    'phone' => null,
+                    'county' => $location['county'] ?? null,
+                    'state_code' => $location['state_code'],
+                    'postal_code' => $location['postal_code'],
+                    'phone' => $location['phone'] ?? null,
+                    'store_number' => $location['store_number'] ?? null,
+                    'division_number' => $location['division_number'] ?? null,
+                    'latitude' => $location['latitude'] ?? null,
+                    'longitude' => $location['longitude'] ?? null,
+                    'timezone' => $location['timezone'] ?? null,
+                    'hours_json' => $location['hours_json'] ?? null,
+                    'raw_json' => $location['raw_json'] ?? null,
                 ]);
             }
             echo json_encode([
