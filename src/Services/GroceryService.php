@@ -5,7 +5,7 @@ class GroceryService {
         private KrogerClient $kroger
     ) {}
 
-    public function searchProducts(string $term, string $locationId): array {
+    public function searchProducts(string $term, string $locationId, int $limit = 24): array {
         $term = trim($term);
         if ($term === '') {
             return [];
@@ -15,7 +15,8 @@ class GroceryService {
             throw new RuntimeException("Invalid Kroger location ID. Use the store lookup to pick a valid 8-character store ID.");
         }
 
-        $response = $this->kroger->searchProducts($term, $locationId, 24);
+        $limit = max(1, min(50, (int) $limit));
+        $response = $this->kroger->searchProducts($term, $locationId, $limit);
         $products = $response['data'] ?? [];
 
         $results = [];
@@ -27,6 +28,58 @@ class GroceryService {
         }
 
         return $results;
+    }
+
+    public function searchProductsLocal(string $term, int $limit = 12): array {
+        $term = trim($term);
+        if ($term === '') {
+            return [];
+        }
+
+        $limit = max(1, min(50, (int) $limit));
+        $needle = '%' . $term . '%';
+
+        $stmt = $this->db->prepare("
+            SELECT
+                id,
+                kroger_product_id,
+                upc,
+                description,
+                brand,
+                size,
+                image_url,
+                aisle_locations,
+                categories,
+                regular_price,
+                sale_price,
+                promo_description,
+                last_seen_at
+            FROM products
+            WHERE (description LIKE :q OR brand LIKE :q OR upc LIKE :q)
+            ORDER BY last_seen_at DESC, id DESC
+            LIMIT {$limit}
+        ");
+        $stmt->execute([':q' => $needle]);
+        $rows = $stmt->fetchAll() ?: [];
+
+        return array_map(static function (array $row): array {
+            return [
+                'db_id' => (int) $row['id'],
+                'kroger_product_id' => (string) ($row['kroger_product_id'] ?? ''),
+                'upc' => (string) ($row['upc'] ?? ''),
+                'description' => (string) ($row['description'] ?? ''),
+                'brand' => (string) ($row['brand'] ?? ''),
+                'size' => (string) ($row['size'] ?? ''),
+                'image_url' => $row['image_url'] ?? null,
+                'aisle_locations' => (string) ($row['aisle_locations'] ?? ''),
+                'categories' => (string) ($row['categories'] ?? ''),
+                'regular_price' => $row['regular_price'] !== null ? (float) $row['regular_price'] : null,
+                'sale_price' => $row['sale_price'] !== null ? (float) $row['sale_price'] : null,
+                'promo_description' => $row['promo_description'] ?? null,
+                'last_seen_at' => (string) ($row['last_seen_at'] ?? ''),
+                'source' => 'db',
+            ];
+        }, $rows);
     }
 
     public function searchLocations(string $zipCode): array {

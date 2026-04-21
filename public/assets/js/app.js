@@ -159,6 +159,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function setSelectedStoreLabel(location) {
+        if (!selectedStoreLabel) {
+            return;
+        }
+
+        if (!location) {
+            selectedStoreLabel.textContent = '';
+            selectedStoreLabel.classList.add('selected-store-hidden');
+            selectedStoreLabel.setAttribute('aria-hidden', 'true');
+            return;
+        }
+
+        selectedStoreLabel.textContent = `${location.name} - ${location.address_line_1}, ${location.city}, ${location.state}`;
+        selectedStoreLabel.classList.remove('selected-store-hidden');
+        selectedStoreLabel.setAttribute('aria-hidden', 'false');
+    }
+
     async function loadPriceHistoryChart() {
         const canvas = document.getElementById('priceHistoryChart');
         if (!canvas || typeof Chart === 'undefined') {
@@ -343,10 +360,15 @@ document.addEventListener('DOMContentLoaded', () => {
             null;
     }
 
-    function selectLocation(locationId) {
+    function selectLocation(locationId, options = {}) {
         if (!locationId) {
             return;
         }
+
+        const {
+            hideFinder = true,
+            persistCookies = true,
+        } = options;
 
         const selectedLocation = currentLocations.find((location) => location.location_id === locationId) || null;
 
@@ -356,18 +378,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (storeResults) {
             storeResults.value = locationId;
         }
-        if (selectedStoreLabel) {
-            selectedStoreLabel.textContent = selectedLocation
-                ? `${selectedLocation.name} - ${selectedLocation.address_line_1}, ${selectedLocation.city}, ${selectedLocation.state}`
-                : 'Store selected';
-        }
+        setSelectedStoreLabel(selectedLocation);
 
-        setCookie('kroger_location_id', locationId);
-        if (selectedLocation?.store_number) {
-            setCookie('kroger_store_number', selectedLocation.store_number);
-        }
-        if (selectedLocation?.zip_code) {
-            setCookie('kroger_zip_code', selectedLocation.zip_code);
+        if (persistCookies) {
+            setCookie('kroger_location_id', locationId);
+            if (selectedLocation?.store_number) {
+                setCookie('kroger_store_number', selectedLocation.store_number);
+            }
+            if (selectedLocation?.zip_code) {
+                setCookie('kroger_zip_code', selectedLocation.zip_code);
+            }
         }
 
         document.querySelectorAll('.store-result-card').forEach((card) => {
@@ -379,8 +399,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        setStoreFinderVisibility(true);
-        window.setTimeout(() => setStoreFinderVisibility(false), 150);
+        if (hideFinder) {
+            setStoreFinderVisibility(true);
+            window.setTimeout(() => setStoreFinderVisibility(false), 150);
+        }
     }
 
     function renderStoreCards(locations, preferredLocationId) {
@@ -420,6 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!locations.length) {
             setStoreFinderVisibility(true);
             renderStoreCards([], '');
+            setSelectedStoreLabel(null);
             return;
         }
 
@@ -435,9 +458,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const preferred = getPreferredLocation(locations);
         const preferredLocationId = preferred ? preferred.location_id : '';
-        setStoreFinderVisibility(true);
+
+        const hasSavedStore = Boolean(getCookie('kroger_location_id'));
+        setStoreFinderVisibility(!hasSavedStore);
         renderStoreCards(locations, preferredLocationId);
-        selectLocation(preferredLocationId);
+        // Auto-select the preferred store, but only hide results when the user already has a saved store.
+        selectLocation(preferredLocationId, { hideFinder: hasSavedStore, persistCookies: true });
     }
 
     function renderList(items) {
@@ -665,14 +691,14 @@ document.addEventListener('DOMContentLoaded', () => {
         storeFinderPanel?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     storeResults?.addEventListener('change', () => {
-        selectLocation(storeResults.value);
+        selectLocation(storeResults.value, { hideFinder: true, persistCookies: true });
     });
     storeResultsList?.addEventListener('click', (event) => {
         const card = event.target.closest('.store-result-card');
         if (!card) {
             return;
         }
-        selectLocation(card.dataset.locationId || '');
+        selectLocation(card.dataset.locationId || '', { hideFinder: true, persistCookies: true });
     });
     searchInput?.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
@@ -957,6 +983,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    async function runTypeahead(term) {
+        const locationId = storeInput?.value.trim() || '';
+        if (!term) {
+            return [];
+        }
+
+        const json = await requestJson(`api.php?action=typeahead_products&q=${encodeURIComponent(term)}&locationId=${encodeURIComponent(locationId)}&limit=12`);
+        return json.results || [];
+    }
+
     const handleTopSearchInput = debounce(async () => {
         const term = topSearchInput?.value.trim() || '';
         const locationId = storeInput?.value.trim() || '';
@@ -966,10 +1002,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const json = await requestJson(`api.php?action=search_products&q=${encodeURIComponent(term)}&locationId=${encodeURIComponent(locationId)}`);
-            renderSearchResults(json.results || []);
+            const results = await runTypeahead(term);
+            renderSearchResults(results || []);
             if (searchState) {
-                searchState.textContent = `Showing ${json.results.length} results as you type.`;
+                searchState.textContent = `Showing ${results.length} results as you type.`;
             }
         } catch (error) {
             // Silently fail during live search
@@ -990,9 +1026,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const json = await requestJson(`api.php?action=search_products&q=${encodeURIComponent(term)}&locationId=${encodeURIComponent(locationId)}`);
-            if (json.results && json.results.length > 0) {
-                const firstResult = json.results[0];
+            const results = await runTypeahead(term);
+            if (results && results.length > 0) {
+                const firstResult = results[0];
                 usualItemName.dataset.productId = firstResult.db_id;
                 usualItemName.placeholder = `${firstResult.description}`;
             }

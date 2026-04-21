@@ -32,6 +32,7 @@ try {
         case 'search_products':
             $term = $_GET['q'] ?? '';
             $locationId = $_GET['locationId'] ?? $config['kroger']['default_location_id'];
+            $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 24;
             $resolvedLocationId = $service->resolveLocationId(
                 (string) $locationId,
                 (string) $config['kroger']['default_zip_code'],
@@ -40,7 +41,58 @@ try {
             echo json_encode([
                 'ok' => true,
                 'locationId' => $resolvedLocationId,
-                'results' => $service->searchProducts($term, $resolvedLocationId),
+                'results' => $service->searchProducts($term, $resolvedLocationId, $limit),
+            ]);
+            break;
+
+        case 'typeahead_products':
+            $term = $_GET['q'] ?? '';
+            $locationId = (string) ($_GET['locationId'] ?? '');
+            $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 12;
+            $limit = max(1, min(50, $limit));
+
+            $local = $service->searchProductsLocal((string) $term, $limit);
+            $results = $local;
+
+            $needsRemote = count($local) < $limit;
+            $validLocation = preg_match('/^[A-Za-z0-9]{8}$/', $locationId) === 1;
+
+            if ($needsRemote && $validLocation) {
+                $remote = $service->searchProducts((string) $term, $locationId, $limit);
+                $seen = [];
+                foreach ($local as $row) {
+                    if (!empty($row['upc'])) {
+                        $seen['upc:' . $row['upc']] = true;
+                    }
+                    if (!empty($row['kroger_product_id'])) {
+                        $seen['pid:' . $row['kroger_product_id']] = true;
+                    }
+                }
+
+                foreach ($remote as $row) {
+                    $key = !empty($row['upc']) ? 'upc:' . $row['upc'] : (!empty($row['kroger_product_id']) ? 'pid:' . $row['kroger_product_id'] : null);
+                    if ($key && isset($seen[$key])) {
+                        continue;
+                    }
+                    $row['source'] = 'api';
+                    $results[] = $row;
+                    if ($key) {
+                        $seen[$key] = true;
+                    }
+                    if (count($results) >= $limit) {
+                        break;
+                    }
+                }
+            }
+
+            echo json_encode([
+                'ok' => true,
+                'locationId' => $locationId,
+                'results' => array_slice($results, 0, $limit),
+                'sources' => [
+                    'db' => count($local),
+                    'api' => max(0, count($results) - count($local)),
+                ],
             ]);
             break;
 
