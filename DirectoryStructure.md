@@ -1,0 +1,27 @@
+```plaintext
+app/
+  Services/
+    Kroger/
+      HttpClient.php
+      ProductsIngestor.php
+      LocationsIngestor.php
+      IdentityIngestor.php
+      PriceHistoryIngestor.php
+  Repositories/
+    ProductRepository.php
+    StoreRepository.php
+    UserRepository.php
+    PriceHistoryRepository.php
+  Console/
+    Commands/
+      SyncProductsCommand.php
+      SyncLocationsCommand.php
+      SyncPriceHistoryCommand.php
+      SyncIdentityCommand.php
+config/
+  kroger.php
+scripts/
+  cron_sync_products.php
+  cron_sync_locations.php
+  cron_sync_price_history.php
+```

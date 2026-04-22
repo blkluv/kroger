@@ -33,8 +33,8 @@ $legacy = $config['legacy'];
 
 $pdo = new PDO(
     $legacy['db']['dsn'],
-    $legacy['db']['user'],
-    $legacy['db']['pass'],
+    $legacy['db']['username'] ?? ($legacy['db']['user'] ?? null),
+    $legacy['db']['password'] ?? ($legacy['db']['pass'] ?? null),
     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
 );
 
